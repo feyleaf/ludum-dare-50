@@ -21,18 +21,12 @@
     <ClCompile Include="ic_math.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ic_pathing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ic_math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ic_pathing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ic_window.h">

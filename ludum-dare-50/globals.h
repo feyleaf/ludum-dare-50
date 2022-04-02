@@ -22,4 +22,5 @@ April 1, 2022
 #include <deque>
 #include "ic_math.h"
 #include "ic_window.h"
+#include "game.h"
 #endif//GLOBALS_H

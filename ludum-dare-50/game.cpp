@@ -25,6 +25,7 @@ void gameClass::initCountdown()
 {
 	hudTimeLeft.setCharacterSize(textSize);
 	hudTimeLeft.setFont(slabFont);
+	hudTimeLeft.setFillColor(sf::Color::Black);
 	hudTimeLeft.setPosition(hudPosition);
 	deliveryCountdown = 100;
 	deliveryClock.restart();
@@ -36,8 +37,8 @@ void gameClass::initCash()
 {
 	hudCashEarned.setCharacterSize(textSize);
 	hudCashEarned.setFont(slabFont);
+	hudCashEarned.setFillColor(sf::Color::Black);
 	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(textSize * 1.15f)));
-
 	money = 7654;
 	gameClock.restart();
 	cashString = "Cash Earned: $";
@@ -52,7 +53,7 @@ void gameClass::updateHUD()
 
 void gameClass::updateCountdown()
 {
-	hudTimeLeft.setFillColor(sf::Color::White);
+	hudTimeLeft.setFillColor(sf::Color::Black);
 	hudTimeLeft.setPosition(hudPosition);
 	float timeLeft = deliveryCountdown - deliveryClock.getElapsedTime().asSeconds();
 	iTimeLeft = int(timeLeft);

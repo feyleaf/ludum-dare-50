@@ -42,6 +42,7 @@ int main()
 	sf::View theView;
 	theView = window.getDefaultView();
 	sf::Texture wallyTex;
+	sf::Texture postBoxTex;
 	sf::Texture houseTex1;
 	sf::Texture houseTex2;
 	sf::Texture houseTex3;
@@ -52,6 +53,7 @@ int main()
 	sf::Texture houseTex8;
 	sf::Texture houseTex9;
 	sf::Sprite wally;
+	sf::Sprite postBox;
 	sf::Sprite house1;
 	sf::Sprite house2;
 	sf::Sprite house3;
@@ -63,6 +65,7 @@ int main()
 	sf::Sprite school;
 	float velocity = 0.0f;
 	wallyTex.loadFromFile("wally-still.png");
+	postBoxTex.loadFromFile("postbox.png");
 	houseTex1.loadFromFile("house1-proto.png");
 	houseTex2.loadFromFile("house2-proto.png");
 	houseTex3.loadFromFile("house3-proto.png");
@@ -76,6 +79,8 @@ int main()
 	wally.setOrigin(128.0f, 128.0f);
 	//wally.setScale(0.5f, 0.5f);
 	wally.setPosition(startx, 495.0f);
+	postBox.setTexture(postBoxTex);
+	postBox.setScale(2.0f, 2.0f);
 	theView.setCenter(wally.getPosition().x, theView.getCenter().y);
 	house1.setTexture(houseTex1);
 	house1.setOrigin(256.0f, 256.0f);
@@ -118,8 +123,8 @@ int main()
 
 
 
-	sf::RectangleShape ground(sf::Vector2f(villageLength, 300.0f));
-	ground.setPosition(0.0f, 420.0f);
+	sf::RectangleShape ground(sf::Vector2f(villageLength+worldWidth, 300.0f));
+	ground.setPosition(-worldWidth/2.0f, 420.0f);
 	ground.setFillColor(sf::Color::Yellow);
 
 	theGame.initSlip();
@@ -165,8 +170,10 @@ int main()
 			wally.setTextureRect(sf::IntRect(256, 0, 256, 256));
 		float walx = wally.getPosition().x;
 		float xpos = (wally.getPosition().x - theView.getCenter().x) + velocity;
-		if ((xpos > boundr || xpos < -boundr))// && xpos<villageLength && xpos>0)
+		if (xpos > boundr || xpos < -boundr)
+		{
 			theView.move(velocity, 0.0f);
+		}
 		if (walx + velocity < villageLength && walx + velocity>0)
 		{
 			wally.move(velocity, 0.0f);
@@ -185,6 +192,8 @@ int main()
 			house tm = house(positions[i]);
 			tm.sp.setPosition(tm.xp, 280.0f);
 			window.draw(tm.sp);
+			postBox.setPosition(tm.xp + 40.0f, 460.0f);
+			window.draw(postBox);
 		}
 		window.draw(wally);
 		theGame.drawHUD(window);

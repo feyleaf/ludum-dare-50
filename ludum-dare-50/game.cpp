@@ -38,7 +38,7 @@ void gameClass::initCash()
 	hudCashEarned.setCharacterSize(textSize);
 	hudCashEarned.setFont(slabFont);
 	hudCashEarned.setFillColor(sf::Color::Black);
-	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(textSize * 1.15f)));
+	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(int(textSize * 1.15f))));
 	money = 7654;
 	gameClock.restart();
 	cashString = "Cash Earned: $";
@@ -64,7 +64,7 @@ void gameClass::updateCountdown()
 
 void gameClass::updateCash()
 {
-	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(textSize * 1.15f)));
+	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(int(textSize * 1.15f))));
 	hudCashEarned.setString(cashString + std::to_string(money));
 }
 
@@ -84,7 +84,7 @@ void gameClass::renderCountdown()
 
 void gameClass::renderCash()
 {
-	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(textSize * 1.15f)));
+	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(int(textSize * 1.15f))));
 	hudTexture.draw(hudCashEarned);
 }
 
@@ -121,9 +121,9 @@ void gameClass::initSlip()
 	recipientHouse.setFillColor(sf::Color::Black);
 	rewardText.setFillColor(sf::Color::Green);
 	headerString = "========Ticket========";
-	nameString = "Benjamin";
-	houseString = "Vertical Siding";
-	rewardString = "Reward: $16";
+	nameString = "Alvin";
+	houseString = "Metal Roof";
+	rewardString = "Reward: $156";
 	footerString = "-----------deliver-----------";
 }
 

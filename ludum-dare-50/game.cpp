@@ -3,6 +3,13 @@
 gameClass::gameClass()
 {
 	initHUD();
+	lookingForWork = true;
+	onMission = false;
+	theEncounter = false;
+	hasEpiphany = false;
+	droppingOffParcel = false;
+	parcelSuccess = false;
+	parcelFail = false;
 }
 
 gameClass::~gameClass()
@@ -142,8 +149,11 @@ void gameClass::renderHUD()
 
 void gameClass::renderCountdown()
 {
-	hudTimeLeft.setPosition(hudPosition);
-	hudTexture.draw(hudTimeLeft);
+	if (isCarrying())
+	{
+		hudTimeLeft.setPosition(hudPosition);
+		hudTexture.draw(hudTimeLeft);
+	}
 }
 
 void gameClass::renderCash()
@@ -224,32 +234,36 @@ void gameClass::updateSlip()
 
 void gameClass::renderSlip()
 {
-	packageSlip.clear(sf::Color(0, 0, 0, 0));
-	packageSlip.draw(packSlip);
-	packageSlip.draw(slipFooter);
-	packageSlip.draw(slipHeader);
-	packageSlip.draw(recipientHouse);
-	packageSlip.draw(recipientName);
-	packageSlip.draw(rewardText);
-	if (dogChewed)
-	{
-		sf::Texture tm = packageSlip.getTexture();
-		sf::Image chewy = tm.copyToImage();
-		for (int y = 0; y < dogChewMask.getSize().y; y++)
+		packageSlip.clear(sf::Color(0, 0, 0, 0));
+		if (isCarrying())
 		{
-			for (int x = 0; x < dogChewMask.getSize().x; x++)
+			packageSlip.draw(packSlip);
+			packageSlip.draw(slipFooter);
+			packageSlip.draw(slipHeader);
+			packageSlip.draw(recipientHouse);
+			packageSlip.draw(recipientName);
+			packageSlip.draw(rewardText);
+			if (dogChewed)
 			{
-				if (dogChewMask.getPixel(x, y) == sf::Color(255,0,255,255))
-					chewy.setPixel(x, y, sf::Color(0, 0, 0, 0));
+				sf::Texture tm = packageSlip.getTexture();
+				sf::Image chewy = tm.copyToImage();
+				for (int y = 0; y < dogChewMask.getSize().y; y++)
+				{
+					for (int x = 0; x < dogChewMask.getSize().x; x++)
+					{
+						if (dogChewMask.getPixel(x, y) == sf::Color(255, 0, 255, 255))
+							chewy.setPixel(x, y, sf::Color(0, 0, 0, 0));
+					}
+				}
+				tm.loadFromImage(chewy);
+				packageSlip.clear(sf::Color(0, 0, 0, 0));
+				sf::Sprite xx;
+				xx.setTexture(tm);
+				packageSlip.draw(xx);
 			}
 		}
-		tm.loadFromImage(chewy);
-		packageSlip.clear(sf::Color(0, 0, 0, 0));
-		sf::Sprite xx;
-		xx.setTexture(tm);
-		packageSlip.draw(xx);
-	}
-	packageSlip.display();
+		packageSlip.display();
+	
 }
 
 float gameClass::getGameTime()
@@ -281,3 +295,48 @@ void gameClass::deactivateDogChew()
 	dogChewed = false;
 }
 
+bool gameClass::isSeeking()
+{
+	return lookingForWork;
+}
+
+void gameClass::setSeeking()
+{
+	droppingOffParcel = false;
+	onMission = false;
+	lookingForWork = true;
+}
+
+bool gameClass::isDropping()
+{
+	return droppingOffParcel;
+}
+
+void gameClass::setDropping()
+{
+	droppingOffParcel = true;
+	onMission = false;
+	lookingForWork = false;
+}
+
+bool gameClass::isCarrying()
+{
+	return onMission;
+}
+
+void gameClass::setCarrying()
+{
+	droppingOffParcel = false;
+	onMission = true;
+	lookingForWork = false;
+}
+
+void gameClass::setFloatingParcelFlag(bool e)
+{
+	floatingParcelFlag = e;
+}
+
+bool gameClass::getFloatingParcelFlag()
+{
+	return floatingParcelFlag;
+}

@@ -20,10 +20,12 @@ class gameClass
 
 	bool lookingForWork;
 	bool onMission;
+	bool theEncounter;
 	bool hasEpiphany;
 	bool droppingOffParcel;
 	bool parcelSuccess;
 	bool parcelFail;
+	bool floatingParcelFlag;
 
 	sf::Text hudCashEarned;
 	sf::Text hudTimeLeft;
@@ -64,6 +66,15 @@ public:
 	~gameClass();
 
 	float getGameTime();
+	bool isSeeking();
+	bool isCarrying();
+	bool isDropping();
+	void setSeeking();
+	void setCarrying();
+	void setDropping();
+	void setFloatingParcelFlag(bool e);
+	bool getFloatingParcelFlag();
+
 	//HUD functionality
 	void initHUD();
 	void initCountdown();

@@ -84,6 +84,7 @@ int main()
 	wally.setPosition(startx, 495.0f);
 	parcel.setTexture(parcelTex);
 	parcel.setPosition(startx + 100.0f, 535.0f);
+	parcel.setScale(1.0f, 1.0f);
 	postBox.setTexture(postBoxTex);
 	postBox.setScale(2.0f, 2.0f);
 	theView.setCenter(wally.getPosition().x, theView.getCenter().y);
@@ -126,6 +127,10 @@ int main()
 	positions.push_back(house(14475.0, tower));
 	positions.push_back(house(15575.0, house3));
 
+	//for the floating parcel functionality
+	unsigned int index = 0;
+	unsigned int climbs = 0;
+	float minDist = 9000.0f;
 
 
 	sf::RectangleShape ground(sf::Vector2f(villageLength+worldWidth, 300.0f));
@@ -164,8 +169,28 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 			if (event.type == sf::Event::KeyPressed)
+			{
 				if (event.key.code == sf::Keyboard::H)
 					theGame.toggleDogChew();
+				if (event.key.code == sf::Keyboard::Space)
+				{
+					if (calcDist(wally.getPosition(), parcel.getPosition()) < 80.0f)
+					{
+						if (theGame.isSeeking())
+						{
+							theGame.setCarrying();
+						}
+						else if (theGame.isCarrying())
+						{
+							theGame.setDropping();
+							theGame.setFloatingParcelFlag(false);
+						}
+					}
+				}
+				if (event.key.code == sf::Keyboard::Escape)
+					window.close();
+			}
+
 		}
 
 
@@ -182,6 +207,50 @@ int main()
 		if (walx + velocity < villageLength && walx + velocity>0)
 		{
 			wally.move(velocity, 0.0f);
+		}
+		if (theGame.isCarrying())
+		{
+			parcel.setPosition(wally.getPosition());
+			parcel.setScale(wally.getScale());
+		}
+		if (theGame.isDropping())
+		{
+			//here I need to find the closest post box
+			//and float the parcel to it
+			if (!theGame.getFloatingParcelFlag())
+			{
+				index = 0;
+				minDist = 9000.0f;
+				for (unsigned int i = 0; i < positions.size(); i++)
+				{
+					house tm = house(positions[i]);
+					sf::Vector2f mailDoor = sf::Vector2f(tm.xp + 90.0f, 470.0f);
+					float currentDist = calcDist(parcel.getPosition(), mailDoor);
+					if (currentDist < minDist)
+					{
+						minDist = currentDist;
+						index = i;
+					}
+				}
+				theGame.setFloatingParcelFlag(true);
+				climbs = 0;
+			}
+			if (theGame.getFloatingParcelFlag() && calcDist(parcel.getPosition(), sf::Vector2f(positions[index].xp + 112.0f, 490.0f)) > 4)
+			{
+				climbs++;
+				float iter = minDist / 24.0f;
+				sf::Vector2f direction = sf::Vector2f(positions[index].xp + 112.0f, 490.0f) - parcel.getPosition();
+				parcel.setScale(float(50-climbs) / 50.0f, float(50-climbs) / 50.0f);
+				parcel.move(scalar(iter, normalVector(direction)));
+			}
+			else
+			{
+				parcel.setTexture(parcelTex);
+				parcel.setPosition(startx + 100.0f, 535.0f);
+				parcel.setScale(1.0f, 1.0f);
+				theGame.setFloatingParcelFlag(false);
+				theGame.setSeeking();
+			}
 		}
 
 		theGame.updateSlip();

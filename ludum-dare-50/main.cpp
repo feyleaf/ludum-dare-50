@@ -201,6 +201,8 @@ int main()
 						{
 							theGame.setCarrying();
 							theGame.generateDetails();
+							float dogx = float(rand() % int(villageLength));
+							dog.setPosition(dogx, 500.0f);
 						}
 						else if (theGame.isCarrying())
 						{
@@ -243,6 +245,17 @@ int main()
 		}
 		if (theGame.isCarrying())
 		{
+			float dogDist = calcDist(dog.getPosition(), wally.getPosition());
+			if (dogDist < 390.0f && !theGame.isTheEncounter())
+			{
+				if (dogDist < 40.0)
+				{
+					theGame.setEncounter();
+					theGame.activateDogChew();
+				}
+				sf::Vector2f direction = wally.getPosition() - dog.getPosition();
+				dog.move(scalar(13.0f, normalVector(direction)));
+			}
 			parcel.setPosition(wally.getPosition());
 			parcel.setScale(wally.getScale());
 		}
@@ -268,7 +281,7 @@ int main()
 				theGame.setFloatingParcelFlag(true);
 				climbs = 0;
 			}
-			if (theGame.getFloatingParcelFlag() && calcDist(parcel.getPosition(), sf::Vector2f(positions[index].xp + 112.0f, 490.0f)) > 4)
+			if (theGame.getFloatingParcelFlag() && calcDist(parcel.getPosition(), sf::Vector2f(positions[index].xp + 112.0f, 490.0f)) > 4.0f)
 			{
 				climbs++;
 				float iter = minDist / 24.0f;

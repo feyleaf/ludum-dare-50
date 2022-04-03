@@ -78,9 +78,13 @@ public:
 	bool isSeeking();
 	bool isCarrying();
 	bool isDropping();
+	bool isTheEncounter();
+	bool isEpiphany();
 	void setSeeking();
 	void setCarrying();
 	void setDropping();
+	void setEncounter();
+	void setEpiphany();
 	void setFloatingParcelFlag(bool e);
 	bool getFloatingParcelFlag();
 

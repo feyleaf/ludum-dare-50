@@ -314,6 +314,9 @@ void gameClass::setSeeking()
 	droppingOffParcel = false;
 	onMission = false;
 	lookingForWork = true;
+	theEncounter = false;
+	hasEpiphany = false;
+	dogChewed = false;
 }
 
 bool gameClass::isDropping()
@@ -339,6 +342,27 @@ void gameClass::setCarrying()
 	droppingOffParcel = false;
 	onMission = true;
 	lookingForWork = false;
+}
+
+bool gameClass::isTheEncounter()
+{
+	return theEncounter;
+}
+
+bool gameClass::isEpiphany()
+{
+	return hasEpiphany;
+
+}
+
+void gameClass::setEncounter()
+{
+	theEncounter = true;
+}
+
+void gameClass::setEpiphany()
+{
+	hasEpiphany = true;
 }
 
 void gameClass::setFloatingParcelFlag(bool e)

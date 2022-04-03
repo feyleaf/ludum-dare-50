@@ -12,13 +12,16 @@ gameClass::~gameClass()
 
 void gameClass::initHUD()
 {
-	hudTexture.create(256, 96);
+	hudTexture.create(1256, 196);
 	textSize = 24;
 	handFont.loadFromFile("handwriting1.ttf");
 	inkyFont.loadFromFile("handwriting2.ttf");
 	slabFont.loadFromFile("roboto-slab.ttf");
 	initCountdown();
 	initCash();
+	initDeliveries();
+	initStrikes();
+	instructions();
 }
 
 void gameClass::initCountdown()
@@ -39,16 +42,50 @@ void gameClass::initCash()
 	hudCashEarned.setFont(slabFont);
 	hudCashEarned.setFillColor(sf::Color::Black);
 	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(int(textSize * 1.15f))));
-	money = 7654;
+	money = 0;
 	gameClock.restart();
 	cashString = "Cash Earned: $";
 	hudCashEarned.setString(cashString + std::to_string(money));
+}
+
+void gameClass::initDeliveries()
+{
+	hudDeliveries.setCharacterSize(textSize);
+	hudDeliveries.setFont(slabFont);
+	hudDeliveries.setFillColor(sf::Color::Black);
+	hudDeliveries.setPosition(hudPosition + scalar(2.0, sf::Vector2f(0.0f, float(int(textSize * 1.15f)))));
+	numberOfDeliveries = 0;
+	deliveryString = "Completed Deliveries: ";
+	hudDeliveries.setString(deliveryString + std::to_string(numberOfDeliveries));
+}
+
+void gameClass::initStrikes()
+{
+	hudStrikes.setCharacterSize(textSize);
+	hudStrikes.setFont(slabFont);
+	hudStrikes.setFillColor(sf::Color::Red);
+	hudStrikes.setPosition(hudPosition + scalar(3.0, sf::Vector2f(0.0f, float(int(textSize * 1.15f)))));
+	numberOfStrikes = 0;
+	strikeString = "Strikes: ";
+	hudDeliveries.setString(strikeString + std::to_string(numberOfStrikes));
+}
+
+void gameClass::instructions()
+{
+	hudInstructions.setCharacterSize(textSize);
+	hudInstructions.setFont(slabFont);
+	hudInstructions.setFillColor(sf::Color::Black);
+	hudInstructions.setPosition(228.0f, 44.0f);
+	hudInstructions.setString("Left and Right with ARROW KEYS\nSPACE BAR to pick up & drop parcels\nESC to end abruptly");
 }
 
 void gameClass::updateHUD()
 {
 	updateCountdown();
 	updateCash();
+	updateDeliveries();
+	updateStrikes();
+	updateInstructions();
 }
 
 void gameClass::updateCountdown()
@@ -68,11 +105,38 @@ void gameClass::updateCash()
 	hudCashEarned.setString(cashString + std::to_string(money));
 }
 
+void gameClass::updateDeliveries()
+{
+	hudDeliveries.setPosition(hudPosition + scalar(2.0, sf::Vector2f(0.0f, float(int(textSize * 1.15f)))));
+	hudDeliveries.setString(deliveryString + std::to_string(numberOfDeliveries));
+}
+
+void gameClass::updateStrikes()
+{
+	hudStrikes.setPosition(hudPosition + scalar(3.0, sf::Vector2f(0.0f, float(int(textSize * 1.15f)))));
+	hudStrikes.setString(strikeString + std::to_string(numberOfStrikes));
+}
+
+void gameClass::updateInstructions()
+{
+	hudInstructions.setPosition(338.0f, 44.0f);
+	float seconds = gameClock.getElapsedTime().asSeconds();
+	if (seconds > 10.0f)
+	{
+		float till = ((15.0f - seconds)*255.0f)/5.0f;
+		sf::Uint8 alpha = sf::Uint8(till);
+		hudInstructions.setFillColor(sf::Color(0, 0, 0, till));
+	}
+}
+
 void gameClass::renderHUD()
 {
 	hudTexture.clear(sf::Color(0,0,0,0));
 	renderCountdown();
 	renderCash();
+	renderDeliveries();
+	renderStrikes();
+	renderInstructions();
 	hudTexture.display();
 }
 
@@ -86,6 +150,23 @@ void gameClass::renderCash()
 {
 	hudCashEarned.setPosition(hudPosition + sf::Vector2f(0.0f, float(int(textSize * 1.15f))));
 	hudTexture.draw(hudCashEarned);
+}
+
+void gameClass::renderDeliveries()
+{
+	hudTexture.draw(hudDeliveries);
+}
+
+void gameClass::renderStrikes()
+{
+	if (numberOfStrikes > 0)
+		hudTexture.draw(hudStrikes);
+}
+
+void gameClass::renderInstructions()
+{
+	if (gameClock.getElapsedTime().asSeconds() < 15.0f)
+		hudTexture.draw(hudInstructions);
 }
 
 void gameClass::drawHUD(sf::RenderWindow& app)

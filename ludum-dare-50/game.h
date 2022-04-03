@@ -18,10 +18,23 @@ class gameClass
 	int numberOfDeliveries;
 	int numberOfStrikes;
 
+	bool lookingForWork;
+	bool onMission;
+	bool hasEpiphany;
+	bool droppingOffParcel;
+	bool parcelSuccess;
+	bool parcelFail;
+
 	sf::Text hudCashEarned;
 	sf::Text hudTimeLeft;
+	sf::Text hudDeliveries;
+	sf::Text hudStrikes;
+	sf::Text hudInstructions;
 	sf::String cashString;
 	sf::String timerString;
+	sf::String deliveryString;
+	sf::String strikeString;
+	sf::String instructionString;
 
 	sf::Clock deliveryClock;
 	sf::Clock gameClock;
@@ -55,14 +68,23 @@ public:
 	void initHUD();
 	void initCountdown();
 	void initCash();
+	void initDeliveries();
+	void initStrikes();
+	void instructions();
 
 	void updateHUD();
 	void updateCountdown();
 	void updateCash();
+	void updateDeliveries();
+	void updateStrikes();
+	void updateInstructions();
 
 	void renderHUD();
 	void renderCountdown();
 	void renderCash();
+	void renderDeliveries();
+	void renderStrikes();
+	void renderInstructions();
 
 	//packing slip functionality
 	void initSlip();

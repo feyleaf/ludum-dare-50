@@ -42,6 +42,7 @@ int main()
 	sf::View theView;
 	theView = window.getDefaultView();
 	sf::Texture wallyTex;
+	sf::Texture dogTex;
 	sf::Texture postBoxTex;
 	sf::Texture parcelTex;
 	sf::Texture houseTex1;
@@ -53,7 +54,11 @@ int main()
 	sf::Texture houseTex7;
 	sf::Texture houseTex8;
 	sf::Texture houseTex9;
+	sf::Texture houseTex10;
+	sf::Texture houseTex11;
+	sf::Texture houseTex12;
 	sf::Sprite wally;
+	sf::Sprite dog;
 	sf::Sprite postBox;
 	sf::Sprite parcel;
 	sf::Sprite house1;
@@ -65,8 +70,12 @@ int main()
 	sf::Sprite house7;
 	sf::Sprite house8;
 	sf::Sprite school;
+	sf::Sprite house10;
+	sf::Sprite house11;
+	sf::Sprite house12;
 	float velocity = 0.0f;
 	parcelTex.loadFromFile("parcel.png");
+	dogTex.loadFromFile("dog.png");
 	wallyTex.loadFromFile("wally-still.png");
 	postBoxTex.loadFromFile("postbox.png");
 	houseTex1.loadFromFile("house1-proto.png");
@@ -78,6 +87,9 @@ int main()
 	houseTex7.loadFromFile("house7-proto.png");
 	houseTex8.loadFromFile("house8-proto.png");
 	houseTex9.loadFromFile("house9-school-proto.png");
+	houseTex10.loadFromFile("house10-proto.png");
+	houseTex11.loadFromFile("house11-proto.png");
+	houseTex12.loadFromFile("house12-proto.png");
 	wally.setTexture(wallyTex);
 	wally.setOrigin(128.0f, 128.0f);
 	//wally.setScale(0.5f, 0.5f);
@@ -106,22 +118,28 @@ int main()
 	house8.setOrigin(256.0f, 256.0f);
 	school.setTexture(houseTex9);
 	school.setOrigin(256.0f, 256.0f);
+	house10.setTexture(houseTex10);
+	house10.setOrigin(256.0f, 256.0f);
+	house11.setTexture(houseTex11);
+	house11.setOrigin(256.0f, 256.0f);
+	house12.setTexture(houseTex12);
+	house12.setOrigin(256.0f, 256.0f);
 
 	std::vector<house> positions;
 	positions.push_back(house(256.0, house7));
 	positions.push_back(house(935.0, house3));
 	positions.push_back(house(1395.0, house2));
 	positions.push_back(house(2075.0, school));
-	positions.push_back(house(2675.0, house2));
-	positions.push_back(house(3975.0, house1));
+	positions.push_back(house(2675.0, house12));
+	positions.push_back(house(3975.0, house11));
 	positions.push_back(house(4975.0, house3));
 	positions.push_back(house(5775.0, house6));
 	positions.push_back(house(6675.0, house1));
-	positions.push_back(house(7725.0, house2));
+	positions.push_back(house(7725.0, house10));
 	positions.push_back(house(8875.0, tower));
 	positions.push_back(house(9995.0, house2));
 	positions.push_back(house(11075.0, house5));
-	positions.push_back(house(12005.0, house2));
+	positions.push_back(house(12005.0, house12));
 	positions.push_back(house(12975.0, house8));
 	positions.push_back(house(13375.0, house6));
 	positions.push_back(house(14475.0, tower));
@@ -179,6 +197,7 @@ int main()
 						if (theGame.isSeeking())
 						{
 							theGame.setCarrying();
+							theGame.generateDetails();
 						}
 						else if (theGame.isCarrying())
 						{
@@ -195,9 +214,20 @@ int main()
 
 
 		//run updates
-		wally.setTextureRect(sf::IntRect(0, 0, 256, 256));
-		if (sin(theGame.getGameTime()*3.0f) > 0)
-			wally.setTextureRect(sf::IntRect(256, 0, 256, 256));
+		if (velocity == 0.0f)
+		{
+			wally.setTextureRect(sf::IntRect(0, 0, 256, 256));
+			if (sin(theGame.getGameTime()*3.0f) > 0)
+				wally.setTextureRect(sf::IntRect(256, 0, 256, 256));
+		}
+		else
+		{
+			wally.setTextureRect(sf::IntRect(768, 0, 256, 256));
+			if (sin(theGame.getGameTime()*6.0f) > 0.5f)
+				wally.setTextureRect(sf::IntRect(1024, 0, 256, 256));
+			if (sin(theGame.getGameTime()*6.0f) < -0.5f)
+				wally.setTextureRect(sf::IntRect(512, 0, 256, 256));
+		}
 		float walx = wally.getPosition().x;
 		float xpos = (wally.getPosition().x - theView.getCenter().x) + velocity;
 		if (xpos > boundr || xpos < -boundr)
@@ -245,6 +275,11 @@ int main()
 			}
 			else
 			{
+				if (index != theGame.getDropoffHouse())
+					theGame.addStrike();
+				else
+					theGame.addCash();
+				theGame.addDelivery();
 				parcel.setTexture(parcelTex);
 				parcel.setPosition(startx + 100.0f, 535.0f);
 				parcel.setScale(1.0f, 1.0f);

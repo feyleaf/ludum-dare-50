@@ -3,6 +3,7 @@
 gameClass::gameClass()
 {
 	initHUD();
+	initFactory();
 	lookingForWork = true;
 	onMission = false;
 	theEncounter = false;
@@ -10,6 +11,8 @@ gameClass::gameClass()
 	droppingOffParcel = false;
 	parcelSuccess = false;
 	parcelFail = false;
+	pickupHouse = 8;
+	dropoffHouse = 0;
 }
 
 gameClass::~gameClass()
@@ -189,6 +192,7 @@ void gameClass::drawHUD(sf::RenderWindow& app)
 
 void gameClass::initSlip()
 {
+	generateDetails();
 	dogChewed = false;
 	dogChewMask.loadFromFile("dogchewmask.png");
 
@@ -212,10 +216,10 @@ void gameClass::initSlip()
 	recipientHouse.setFillColor(sf::Color::Black);
 	rewardText.setFillColor(sf::Color::Green);
 	headerString = "Deliver Package To";
-	nameString = " ";
-	houseString = "House:  ";
-	rewardString = "Reward: $ ";
-	footerString = "Pickup from:";
+	nameString = nameSuffix;
+	houseString = "House: " + houseSuffix;
+	rewardString = "Reward: $" + rewardSuffix;
+	footerString = "From: " + pickupSuffix;
 }
 
 void gameClass::updateSlip()
@@ -230,6 +234,11 @@ void gameClass::updateSlip()
 	recipientName.setPosition(20.0f, 16.0f);
 	recipientHouse.setPosition(26.0f, 47.0f);
 	rewardText.setPosition(20.0f, 67.0f);
+	headerString = "Deliver Package To";
+	nameString = nameSuffix;
+	houseString = "House: " + houseSuffix;
+	rewardString = "Reward: $" + rewardSuffix;
+	footerString = "From: " + pickupSuffix;
 }
 
 void gameClass::renderSlip()
@@ -326,6 +335,7 @@ bool gameClass::isCarrying()
 
 void gameClass::setCarrying()
 {
+	deliveryClock.restart();
 	droppingOffParcel = false;
 	onMission = true;
 	lookingForWork = false;
@@ -339,4 +349,31 @@ void gameClass::setFloatingParcelFlag(bool e)
 bool gameClass::getFloatingParcelFlag()
 {
 	return floatingParcelFlag;
+}
+
+void gameClass::initFactory()
+{
+	packer.generateTheHouses();
+	initRandom();
+}
+
+details gameClass::selectCustomer()
+{
+	unsigned int index = rand() % packer.customerList.size();
+	return packer.customerList[index];
+}
+
+void gameClass::generateDetails()
+{
+	details pick = selectCustomer();
+	details drop = selectCustomer();
+	while (drop.houseIndex == pick.houseIndex)
+		drop = selectCustomer();
+	nameSuffix = drop.curName;
+	houseSuffix = drop.curHouse;
+	rewardSuffix = std::to_string(drop.rewardCash);
+	moneyOnLine = drop.rewardCash;
+	pickupSuffix = pick.curName;
+	pickupHouse = pick.houseIndex;
+	dropoffHouse = drop.houseIndex;
 }

@@ -14,6 +14,9 @@ class gameClass
 	int textSize;
 	int deliveryCountdown;
 	int money;
+	int moneyOnLine;
+	unsigned int pickupHouse;
+	unsigned int dropoffHouse;
 	int iTimeLeft;
 	int numberOfDeliveries;
 	int numberOfStrikes;
@@ -59,7 +62,13 @@ class gameClass
 	sf::String houseString;
 	sf::String rewardString;
 	sf::String footerString;
+	sf::String nameSuffix;
+	sf::String houseSuffix;
+	sf::String rewardSuffix;
+	sf::String pickupSuffix;
 
+	//package factory
+	packageFactory packer;
 
 public:
 	gameClass();
@@ -101,6 +110,9 @@ public:
 	void initSlip();
 	void updateSlip();
 	void renderSlip();
+	void addStrike() { numberOfStrikes++; }
+	void addCash() { money += moneyOnLine; }
+	void addDelivery() { numberOfDeliveries++; }
 
 	void drawHUD(sf::RenderWindow& app);
 	void drawPackageSlip(sf::RenderWindow& app);
@@ -109,6 +121,12 @@ public:
 	void activateDogChew();
 	void deactivateDogChew();
 
+	//package factory
+	void initFactory();
+	details selectCustomer();
+	void generateDetails();
+	unsigned int getPickupHouse() { return pickupHouse; }
+	unsigned int getDropoffHouse() { return dropoffHouse; }
 };
 
 #endif//GAME_H

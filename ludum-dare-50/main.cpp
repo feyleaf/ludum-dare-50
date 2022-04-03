@@ -94,6 +94,9 @@ int main()
 	wally.setOrigin(128.0f, 128.0f);
 	//wally.setScale(0.5f, 0.5f);
 	wally.setPosition(startx, 495.0f);
+	dog.setTexture(dogTex);
+	dog.setPosition(0, 0);
+	dog.setOrigin(128.0f, 128.0f);
 	parcel.setTexture(parcelTex);
 	parcel.setPosition(startx + 100.0f, 535.0f);
 	parcel.setScale(1.0f, 1.0f);
@@ -306,6 +309,7 @@ int main()
 		}
 		window.draw(parcel);
 		window.draw(wally);
+		window.draw(dog);
 		theGame.drawHUD(window);
 		theGame.drawPackageSlip(window);
 		window.setView(theView);

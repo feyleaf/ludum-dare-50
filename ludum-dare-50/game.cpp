@@ -120,11 +120,11 @@ void gameClass::initSlip()
 	recipientName.setFillColor(sf::Color(0,0,0,255));
 	recipientHouse.setFillColor(sf::Color::Black);
 	rewardText.setFillColor(sf::Color::Green);
-	headerString = "========Ticket========";
-	nameString = "Alvin";
-	houseString = "Metal Roof";
-	rewardString = "Reward: $156";
-	footerString = "-----------deliver-----------";
+	headerString = "Deliver Package To";
+	nameString = " ";
+	houseString = "House:  ";
+	rewardString = "Reward: $ ";
+	footerString = "Pickup from:";
 }
 
 void gameClass::updateSlip()
@@ -134,11 +134,11 @@ void gameClass::updateSlip()
 	recipientName.setString(nameString);
 	recipientHouse.setString(houseString);
 	rewardText.setString(rewardString);
-	slipHeader.setPosition(6.0f, 3.0f);
-	slipFooter.setPosition(6.0f, 91.0f);
-	recipientName.setPosition(10.0f, 16.0f);
+	slipHeader.setPosition(16.0f, 3.0f);
+	slipFooter.setPosition(16.0f, 91.0f);
+	recipientName.setPosition(20.0f, 16.0f);
 	recipientHouse.setPosition(26.0f, 47.0f);
-	rewardText.setPosition(10.0f, 67.0f);
+	rewardText.setPosition(20.0f, 67.0f);
 }
 
 void gameClass::renderSlip()
@@ -189,3 +189,14 @@ void gameClass::toggleDogChew()
 {
 	dogChewed = !dogChewed;
 }
+
+void gameClass::activateDogChew()
+{
+	dogChewed = true;
+}
+
+void gameClass::deactivateDogChew()
+{
+	dogChewed = false;
+}
+

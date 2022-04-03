@@ -15,6 +15,8 @@ class gameClass
 	int deliveryCountdown;
 	int money;
 	int iTimeLeft;
+	int numberOfDeliveries;
+	int numberOfStrikes;
 
 	sf::Text hudCashEarned;
 	sf::Text hudTimeLeft;
@@ -71,6 +73,9 @@ public:
 	void drawPackageSlip(sf::RenderWindow& app);
 
 	void toggleDogChew();
+	void activateDogChew();
+	void deactivateDogChew();
+
 };
 
 #endif//GAME_H

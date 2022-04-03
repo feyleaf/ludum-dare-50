@@ -43,6 +43,7 @@ int main()
 	theView = window.getDefaultView();
 	sf::Texture wallyTex;
 	sf::Texture postBoxTex;
+	sf::Texture parcelTex;
 	sf::Texture houseTex1;
 	sf::Texture houseTex2;
 	sf::Texture houseTex3;
@@ -54,6 +55,7 @@ int main()
 	sf::Texture houseTex9;
 	sf::Sprite wally;
 	sf::Sprite postBox;
+	sf::Sprite parcel;
 	sf::Sprite house1;
 	sf::Sprite house2;
 	sf::Sprite house3;
@@ -64,6 +66,7 @@ int main()
 	sf::Sprite house8;
 	sf::Sprite school;
 	float velocity = 0.0f;
+	parcelTex.loadFromFile("parcel.png");
 	wallyTex.loadFromFile("wally-still.png");
 	postBoxTex.loadFromFile("postbox.png");
 	houseTex1.loadFromFile("house1-proto.png");
@@ -79,6 +82,8 @@ int main()
 	wally.setOrigin(128.0f, 128.0f);
 	//wally.setScale(0.5f, 0.5f);
 	wally.setPosition(startx, 495.0f);
+	parcel.setTexture(parcelTex);
+	parcel.setPosition(startx + 100.0f, 535.0f);
 	postBox.setTexture(postBoxTex);
 	postBox.setScale(2.0f, 2.0f);
 	theView.setCenter(wally.getPosition().x, theView.getCenter().y);
@@ -195,6 +200,7 @@ int main()
 			postBox.setPosition(tm.xp + 40.0f, 460.0f);
 			window.draw(postBox);
 		}
+		window.draw(parcel);
 		window.draw(wally);
 		theGame.drawHUD(window);
 		theGame.drawPackageSlip(window);

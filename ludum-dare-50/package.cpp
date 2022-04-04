@@ -23,7 +23,7 @@ void packageFactory::generateTheHouses()
 	mock.curName = "Alvin";
 	mock.curHouse = "Metal Roof";
 	mock.rewardCash = 16;
-	mock.houseIndex = 12;
+	mock.houseIndex = 11;
 	customerList.push_back(mock);
 
 	mock.curName = "Allen";
@@ -41,7 +41,7 @@ void packageFactory::generateTheHouses()
 	mock.curName = "Margie";
 	mock.curHouse = "Extra Windows";
 	mock.rewardCash = 16;
-	mock.houseIndex = 14;
+	mock.houseIndex = 12;
 	customerList.push_back(mock);
 
 	mock.curName = "Leonardo";
@@ -62,12 +62,6 @@ void packageFactory::generateTheHouses()
 	mock.houseIndex = 5;
 	customerList.push_back(mock);
 
-	mock.curName = "Stewart";
-	mock.curHouse = "House with a Balcony";
-	mock.rewardCash = 16;
-	mock.houseIndex = 12;
-	customerList.push_back(mock);
-
 	mock.curName = "Terry";
 	mock.curHouse = "Boat House";
 	mock.rewardCash = 12;
@@ -75,27 +69,15 @@ void packageFactory::generateTheHouses()
 	customerList.push_back(mock);
 
 	mock.curName = "Torance";
-	mock.curHouse = "On a Large Hill";
+	mock.curHouse = "Regular Yellow";
 	mock.rewardCash = 40;
-	mock.houseIndex = 12;
+	mock.houseIndex = 8;
 	customerList.push_back(mock);
 
 	mock.curName = "Quinn";
-	mock.curHouse = "On a Short Hill";
+	mock.curHouse = "Regular Red";
 	mock.rewardCash = 11;
-	mock.houseIndex = 12;
-	customerList.push_back(mock);
-
-	mock.curName = "Benjamin";
-	mock.curHouse = "Vertical Siding";
-	mock.rewardCash = 16;
-	mock.houseIndex = 12;
-	customerList.push_back(mock);
-
-	mock.curName = "Laura";
-	mock.curHouse = "Shingled Siding";
-	mock.rewardCash = 17;
-	mock.houseIndex = 12;
+	mock.houseIndex = 2;
 	customerList.push_back(mock);
 
 	mock.curName = "Jakob";
@@ -104,16 +86,10 @@ void packageFactory::generateTheHouses()
 	mock.houseIndex = 3;
 	customerList.push_back(mock);
 
-	mock.curName = "Liam";
-	mock.curHouse = "Animal Pen";
-	mock.rewardCash = 25;
-	mock.houseIndex = 12;
-	customerList.push_back(mock);
-
 	mock.curName = "Wally";
 	mock.curHouse = "Courier Office";
 	mock.rewardCash = 0;
-	mock.houseIndex = 12;
+	mock.houseIndex = 6;
 	customerList.push_back(mock);
 
 

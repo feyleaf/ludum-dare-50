@@ -149,24 +149,20 @@ int main()
 	house12.setOrigin(256.0f, 256.0f);
 
 	std::vector<house> positions;
-	positions.push_back(house(256.0, house7));
-	positions.push_back(house(935.0, house3));
-	positions.push_back(house(1395.0, house2));
-	positions.push_back(house(2075.0, school));
-	positions.push_back(house(2675.0, house12));
-	positions.push_back(house(3975.0, house11));
-	positions.push_back(house(4975.0, house3));
-	positions.push_back(house(5775.0, house6));
-	positions.push_back(house(6675.0, house1));
-	positions.push_back(house(7725.0, house10));
-	positions.push_back(house(8875.0, tower));
-	positions.push_back(house(9995.0, house2));
-	positions.push_back(house(11075.0, house5));
-	positions.push_back(house(12005.0, house12));
-	positions.push_back(house(12975.0, house8));
-	positions.push_back(house(13375.0, house6));
-	positions.push_back(house(14475.0, tower));
-	positions.push_back(house(15575.0, house3));
+	positions.push_back(house(256.0, house7)); //0
+	positions.push_back(house(935.0, house3)); //1
+	positions.push_back(house(1395.0, house2)); //2
+	positions.push_back(house(2075.0, school)); //3
+	positions.push_back(house(2675.0, house12)); //4
+	positions.push_back(house(3975.0, house11)); //5
+	positions.push_back(house(4975.0, house3)); //6
+	positions.push_back(house(5775.0, house6)); //7
+	positions.push_back(house(6675.0, house1)); //8
+	positions.push_back(house(7725.0, house10)); //9
+	positions.push_back(house(8875.0, tower)); //10
+	positions.push_back(house(11075.0, house5)); //11
+	positions.push_back(house(12975.0, house8)); //12
+	positions.push_back(house(13375.0, house6)); //13
 
 	//for the floating parcel functionality
 	unsigned int index = 0;
@@ -273,6 +269,14 @@ int main()
 					dogSound.play();
 				}
 				sf::Vector2f direction = wally.getPosition() - dog.getPosition();
+				if (direction.x < 0.0f)
+				{
+					dog.setScale(-1.0f, 1.0f);
+				}
+				else
+				{
+					dog.setScale(1.0f, 1.0f);
+				}
 				dog.move(scalar(13.0f, normalVector(direction)));
 			}
 			parcel.setPosition(wally.getPosition());
@@ -303,10 +307,17 @@ int main()
 			if (theGame.getFloatingParcelFlag() && calcDist(parcel.getPosition(), sf::Vector2f(positions[index].xp + 112.0f, 490.0f)) > 4.0f)
 			{
 				climbs++;
-				float iter = minDist / 24.0f;
-				sf::Vector2f direction = sf::Vector2f(positions[index].xp + 112.0f, 490.0f) - parcel.getPosition();
-				parcel.setScale(float(50-climbs) / 50.0f, float(50-climbs) / 50.0f);
-				parcel.move(scalar(iter, normalVector(direction)));
+				if (climbs < 50)
+				{
+					float iter = minDist / 24.0f;
+					sf::Vector2f direction = sf::Vector2f(positions[index].xp + 112.0f, 490.0f) - parcel.getPosition();
+					parcel.setScale(float(50 - climbs) / 50.0f, float(50 - climbs) / 50.0f);
+					parcel.move(scalar(iter, normalVector(direction)));
+				}
+				else
+				{
+					theGame.setFloatingParcelFlag(false);
+				}
 			}
 			else
 			{

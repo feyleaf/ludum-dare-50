@@ -24,9 +24,9 @@ void gameClass::initHUD()
 {
 	hudTexture.create(1256, 196);
 	textSize = 24;
-	handFont.loadFromFile("handwriting1.ttf");
-	inkyFont.loadFromFile("handwriting2.ttf");
-	slabFont.loadFromFile("roboto-slab.ttf");
+	handFont.loadFromFile("assets/fonts/handwriting1.ttf");
+	inkyFont.loadFromFile("assets/fonts/handwriting2.ttf");
+	slabFont.loadFromFile("assets/fonts/roboto-slab.ttf");
 	initCountdown();
 	initCash();
 	initDeliveries();
@@ -194,9 +194,9 @@ void gameClass::initSlip()
 {
 	generateDetails();
 	dogChewed = false;
-	dogChewMask.loadFromFile("dogchewmask.png");
+	dogChewMask.loadFromFile("assets/images/dogchewmask.png");
 
-	packSlipTex.loadFromFile("packslip.png");
+	packSlipTex.loadFromFile("assets/images/packslip.png");
 	packSlip.setTexture(packSlipTex);
 	packSlip.setPosition(0,0);
 	packageSlip.create(256, 128);

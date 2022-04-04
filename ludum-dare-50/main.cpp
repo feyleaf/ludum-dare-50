@@ -29,6 +29,26 @@ struct house
 //main routine
 int main()
 {
+	sf::SoundBuffer dogBuffer;
+	sf::SoundBuffer successBuffer;
+	sf::SoundBuffer failBuffer;
+	sf::Sound dogSound;
+	sf::Sound successSound;
+	sf::Sound failSound;
+	dogBuffer.loadFromFile("assets/audio/dogbite.wav");
+	successBuffer.loadFromFile("assets/audio/success.wav");
+	failBuffer.loadFromFile("assets/audio/fail.wav");
+	dogSound.setBuffer(dogBuffer);
+	dogSound.setLoop(false);
+	successSound.setBuffer(successBuffer);
+	successSound.setLoop(false);
+	failSound.setBuffer(failBuffer);
+	failSound.setLoop(false);
+	sf::Music music;
+	music.openFromFile("assets/audio/bgm.ogg");
+	music.setLoop(true);
+	music.setVolume(24.0f);
+	music.play();
 	gameClass theGame;
 	unsigned int width = 1280;
 	float worldWidth = 1280.0f;
@@ -74,22 +94,22 @@ int main()
 	sf::Sprite house11;
 	sf::Sprite house12;
 	float velocity = 0.0f;
-	parcelTex.loadFromFile("parcel.png");
-	dogTex.loadFromFile("dog.png");
-	wallyTex.loadFromFile("wally-still.png");
-	postBoxTex.loadFromFile("postbox.png");
-	houseTex1.loadFromFile("house1-proto.png");
-	houseTex2.loadFromFile("house2-proto.png");
-	houseTex3.loadFromFile("house3-proto.png");
-	houseTex4.loadFromFile("house4-tower-proto.png");
-	houseTex5.loadFromFile("house5-proto.png");
-	houseTex6.loadFromFile("house6-proto.png");
-	houseTex7.loadFromFile("house7-proto.png");
-	houseTex8.loadFromFile("house8-proto.png");
-	houseTex9.loadFromFile("house9-school-proto.png");
-	houseTex10.loadFromFile("house10-proto.png");
-	houseTex11.loadFromFile("house11-proto.png");
-	houseTex12.loadFromFile("house12-proto.png");
+	parcelTex.loadFromFile("assets/images/parcel.png");
+	dogTex.loadFromFile("assets/images/dog.png");
+	wallyTex.loadFromFile("assets/images/wally-still.png");
+	postBoxTex.loadFromFile("assets/images/postbox.png");
+	houseTex1.loadFromFile("assets/images/house1-proto.png");
+	houseTex2.loadFromFile("assets/images/house2-proto.png");
+	houseTex3.loadFromFile("assets/images/house3-proto.png");
+	houseTex4.loadFromFile("assets/images/house4-tower-proto.png");
+	houseTex5.loadFromFile("assets/images/house5-proto.png");
+	houseTex6.loadFromFile("assets/images/house6-proto.png");
+	houseTex7.loadFromFile("assets/images/house7-proto.png");
+	houseTex8.loadFromFile("assets/images/house8-proto.png");
+	houseTex9.loadFromFile("assets/images/house9-school-proto.png");
+	houseTex10.loadFromFile("assets/images/house10-proto.png");
+	houseTex11.loadFromFile("assets/images/house11-proto.png");
+	houseTex12.loadFromFile("assets/images/house12-proto.png");
 	wally.setTexture(wallyTex);
 	wally.setOrigin(128.0f, 128.0f);
 	//wally.setScale(0.5f, 0.5f);
@@ -191,8 +211,6 @@ int main()
 				window.close();
 			if (event.type == sf::Event::KeyPressed)
 			{
-				if (event.key.code == sf::Keyboard::H)
-					theGame.toggleDogChew();
 				if (event.key.code == sf::Keyboard::Space)
 				{
 					if (calcDist(wally.getPosition(), parcel.getPosition()) < 80.0f)
@@ -252,6 +270,7 @@ int main()
 				{
 					theGame.setEncounter();
 					theGame.activateDogChew();
+					dogSound.play();
 				}
 				sf::Vector2f direction = wally.getPosition() - dog.getPosition();
 				dog.move(scalar(13.0f, normalVector(direction)));
@@ -292,9 +311,15 @@ int main()
 			else
 			{
 				if (index != theGame.getDropoffHouse())
+				{
 					theGame.addStrike();
+					failSound.play();
+				}
 				else
+				{
 					theGame.addCash();
+					successSound.play();
+				}
 				theGame.addDelivery();
 				parcel.setTexture(parcelTex);
 				parcel.setPosition(startx + 100.0f, 535.0f);
